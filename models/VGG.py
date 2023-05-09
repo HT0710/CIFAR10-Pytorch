@@ -11,7 +11,7 @@ config = {
 
 class VGG(nn.Module):
     def __init__(self, vgg_name, num_classes: int=10):
-        super().__init__()
+        super(VGG, self).__init__()
         self.features = self._construction(vgg_name)
         self.classifier = nn.Sequential(
             nn.Flatten(),

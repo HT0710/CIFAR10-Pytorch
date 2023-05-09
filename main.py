@@ -1,20 +1,23 @@
-from Models import VGG
+from lightning_modules import CIFAR10DataModule, LitModel
 from lightning.pytorch import Trainer, seed_everything
-from LitModules import LitModel, CIFARDataModule
 from argparse import ArgumentParser
+from models import VGG
+
 
 seed_everything(42, workers=True)
 
+
 def main(args):
-    dataset = CIFARDataModule(batch_size=args.batch)
+    dataset = CIFAR10DataModule(batch_size=args.batch)
 
     net = VGG('VGG11')
 
-    model = LitModel(net, lr=1e-4)
+    model = LitModel(model=net, lr=1e-4)
 
     trainer = Trainer(max_epochs=args.epoch)
 
     trainer.fit(model, dataset)
+
 
 if __name__=='__main__':
     parser = ArgumentParser()
