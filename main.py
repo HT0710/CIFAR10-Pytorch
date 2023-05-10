@@ -1,4 +1,4 @@
-from lightning_modules import CIFAR10DataModule, LitModel
+from lightning_modules import CIFAR10DataModule, LitModel, cb_list
 from lightning.pytorch import Trainer, seed_everything
 from argparse import ArgumentParser
 from models import VGG
@@ -10,11 +10,15 @@ seed_everything(42, workers=True)
 def main(args):
     dataset = CIFAR10DataModule(batch_size=args.batch)
 
-    net = VGG('VGG11')
+    net = VGG('VGG19')
 
-    model = LitModel(model=net, lr=1e-4)
+    model = LitModel(model=net, lr=args.lr)
 
-    trainer = Trainer(max_epochs=args.epoch)
+    trainer = Trainer(
+        max_epochs=args.epoch,
+        enable_model_summary=False,
+        callbacks=cb_list
+    )
 
     trainer.fit(model, dataset)
 
