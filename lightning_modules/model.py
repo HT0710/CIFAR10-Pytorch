@@ -41,7 +41,9 @@ class LitModel(pl.LightningModule):
         y_hat = self(X)
         loss = self.compute_loss(y_hat, y)
         acc = self.accuracy(y_hat, y)
-        self.log_dict({"train_loss": loss, "train_acc": acc})
+        self.log_dict({"train_loss": loss, "train_acc": acc},
+                      on_step=False, on_epoch=True,
+                      prog_bar=True, logger=True)
         return loss
 
     # Validate step
@@ -50,4 +52,6 @@ class LitModel(pl.LightningModule):
         y_hat = self(X)
         loss = self.compute_loss(y_hat, y)
         acc = self.accuracy(y_hat, y)
-        self.log_dict({"val_loss": loss, "val_acc": acc})
+        self.log_dict({"val_loss": loss, "val_acc": acc},
+                      on_step=False, on_epoch=True,
+                      prog_bar=True, logger=True)
